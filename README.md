@@ -28,6 +28,7 @@ errSize - int: Sets the number of quads contained in each random subset. Does no
 ### Choosing Your Data Set
 Upon running `fundamentalSurface/Surface.java`, you will be prompted to choose the number associated with your data set. You can also preemptively choose the data set by running the command
 > java fundamentalSurface/Surface.java <data set #>
+
 Note that the three special examples, Ares, Abell, and RXJ, each have their own associated numbers, 1000, 1001, and 1002, respectively. Choosing a number that cannot be found will result in the code ending early
 
 ### Outputs
