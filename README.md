@@ -11,7 +11,7 @@ Once compiled, run the file using the command
 The only file that you should need to run is `fundamentalSurface/Surface.java`. Because I didn't include a config file, this is also the only file that you will need to edit parameters in.
 ### Key Parameters
 debug - boolean:  Leave this `false` unless you want to look at the specific outputs of the code. Making it `true` will flood your console with data that you (probably) won't need
-getCenterError - boolean: Toggle this to `true` if you want to be given an accurate uncertainty on cluster parameters. To be given a less accurate estimate, change to `false`
+getCenterError - boolean: Toggle this to `true` if you want to be given an accurate uncertainty on cluster parameters. To be given a less accurate estimate, change to `false`. NOTE: Hasn't been bug tested while this is `false`, I believe it will not save data correctly without it being set to `true`.
 saveFSQData - boolean: Changing this to `true` will create a file `otherData/FSQPoints<fileNum>.csv` that saves the position of each quad in the FSQ space
 radius - double: This defines the maximum distance along the x and y axis that will be tested as a potential FSQ center, measured in units of pixels
 stepSize - double: This defines the step size between test FSQ centers, measured in units of pixels
@@ -21,6 +21,35 @@ errSize - int: Sets the number of quads contained in each random subset. Does no
 Upon running `fundamentalSurface/Surface.java`, you will be prompted to choose the number associated with your data set. You can also preemptively choose the data set by running the command
 > java fundamentalSurface/Surface.java <data set #>
 Note that the three special examples, Ares, Abell, and RXJ, each have their own associated numbers, 1000, 1001, and 1002, respectively. Choosing a number that cannot be found will result in the code ending early
+### Outputs
+The code will create or modify a few .csv files each time it is run.
+`centerData/centerData<data set #>.csv`: Contains the deviation from the Fundamental Surface of Quads produced by setting the FSQ center to each test point from this run. Each row comes from a single data set, and the columns represent:
+  Column 1: x position, measured in units of pixels
+  Column 2: y position, measured in units of pixels
+  Column 3: Value of \delta_{FSQ} at this point
+`otherData/FSQPoints<data set #>.csv`: Only is created if saveFSQData is `true`. Contains the points of each quad in the data set within the FSQ space. Each row comes from a single quad, and the columns represent:
+  Column 1: Value of \theta_12 in radians
+  Column 2: Value of \theta_23 in radians
+  Column 3: Value of \theta_34 in radians
+`otherData/minData.csv`: Contains information about the FSQ center. Only updates if this data set does not already have a dedicated line in the file. Each row comes from a single data set, and the columns represent:
+  Column 1: Data set number
+  Column 2: Value of minimum \delta_{FSQ} in this data set
+  Column 3: x position of minimum \delta_{FSQ} in this data set
+  Column 4: y position of minimum \delta_{FSQ} in this data set
+  Column 5: Uncertainty of FSQ Center location, measured in units of pixels. Calculated to be the average distance of the subsets of quads' FSQ center.
+  Column 6: Size of Einstein Radius, or average distance of lensed image from the coordinate center of the data set, measured in units of pixels.
+  Column 7: Average of |\theta_12| over all quads in the data set, measured in radians
+`otherData/slopeData.csv`: Contains information about the cluster's position angle and ellipticity. Only updates if this data set does not already have a dedicated line in the file. Each row comes from a single data set, and the columns represent:
+  Column 1: Data set number
+  Column 2: Slope of the line following \theta_Q
+  Column 3: Slope of the line following \theta_Q + one standard deviation
+  Column 4: Slope of the line following \theta_Q - one standard deviation
+  Column 5: Value of the radius parameter for this run
+  Column 6: Value of one standard deviation on \theta_Q. Calculated using the standard deviation of the position angles found by testing the random subsets of quads
+`otherData/subsetData.csv`: Contains information about the random subsets of quads used. Only updates if this data set does not already have a dedicated line in the file. Each row comes from a single data set, and the columns represent:
+  Column 1: Data set number
+  Column 0+2*n*: x position of the FSQ center for the *n*th subset
+  Column 1+2n: y position of the FSQ center for the *n*th subset
 
 ## Included Data Sets
 With the exception of our three special example data sets, this code is interested only in the '.ims' extensions. The '.mas' extensions include the true mass profiles of the clusters, which can be plotted using whatever software you choose.
