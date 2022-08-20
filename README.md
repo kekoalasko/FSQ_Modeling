@@ -91,4 +91,4 @@ The code will create or modify a few .csv files each time it is run.
 ## Included Data Sets
 With the exception of our three special example data sets, this code is interested only in the '.ims' extensions. The '.mas' extensions include the true mass profiles of the clusters, which can be plotted using whatever software you choose.
 
-In order to process the '.ims' files, they must be inside of the `sersic/` folder when the code is being run. Included in this repository are data sets 700-799, in both their smooth and structured varieties. Because they are named identically, make sure to keep these files separated. I would recommend keeping them in either the `structured` or `smooth` folders until you wish to run the code.
+In order to process the '.ims' files, they must be inside of the `sersic/` folder when the code is being run. Included in this repository are data sets 700-799, in both their smooth and structured varieties. Because they are named identically, make sure to keep these files separated. I would recommend keeping them in either the `structured/` or `smooth/` folders until you wish to run the code.
