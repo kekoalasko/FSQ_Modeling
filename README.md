@@ -32,6 +32,7 @@ Note that the three special examples, Ares, Abell, and RXJ, each have their own 
 
 ### Outputs
 The code will create or modify a few .csv files each time it is run.
+
 `centerData/centerData<data set #>.csv`: Contains the deviation from the Fundamental Surface of Quads produced by setting the FSQ center to each test point from this run. Each row comes from a single data set, and the columns represent:
 
   Column 1: x position, measured in units of pixels
