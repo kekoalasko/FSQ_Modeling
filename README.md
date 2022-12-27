@@ -84,14 +84,14 @@ The code will create or modify a few .csv files each time it is run.
 
   Column 1: Data set number
 
-  Column 0+2*n*: x position of the FSQ center for the *n*th subset
+  Column 2n+1: x position of the FSQ center for the *n*th subset
 
-  Column 1+2n: y position of the FSQ center for the *n*th subset
+  Column 2(n+1): y position of the FSQ center for the *n*th subset
 
 ## Included Data Sets
 With the exception of our three special example data sets, this code is interested only in the '.ims' extensions. The '.mas' extensions include the true mass profiles of the clusters, which can be plotted using whatever software you choose.
 
-In order to process the '.ims' files, they must be inside of the `sersic/` folder when the code is being run. Included in this repository are data sets 700-799, in both their smooth and structured varieties. Because they are named identically, make sure to keep these files separated. I would recommend keeping them in either the `structured/` or `smooth/` folders until you wish to run the code.
+In order to process the '.ims' files, they must be inside of the `sersic/` folder when the code is being run. Included in this repository are data sets 600-699, in both their smooth and structured varieties. Because they are named identically, make sure to keep these files separated. I would recommend keeping them in either the `structured/` or `smooth/` folders until you wish to run the code.
 
 The `.ims` files are all structured into columns, with each line corresponding to a single image produced by the cluster:
 
