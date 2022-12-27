@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -38,7 +39,7 @@ public class Surface {
 	private static final double radius = 250.0;	//Square "radius" within which we will search for the cluster center
 	private static final double stepSize = radius / 500.0;	//Resolution of the search within the radius
 	private static final int errNum = 30;	//Number of subsets to use for estimate of center error
-	private static final int errSize = 15;	//Size of subsets to use for estimate of center error
+	private static final int errSize = 10;	//Size of subsets to use for estimate of center error
 	private static final int ARES = 1000;	//Code used to read the Ares simulation data
 	private static final int ABELL = 1001;	//Code used to read the Abell 1689 observed data
 	private static final int RXJ = 1002;	//Code used to read the RXJ1347 observed data
@@ -95,6 +96,7 @@ public class Surface {
 			try {
 				//Determine number of lines in file
 				int lines = (int) Files.lines(Paths.get("sersic/makegalKLsersic.ims" + fileEnd)).count();
+				if (debug) System.out.println("Lines read:\t" + lines);
 				imageX = new double[lines];
 				imageY = new double[lines];
 				magnification = new double[lines];
@@ -280,8 +282,9 @@ public class Surface {
 		double[][] centers = new double[errNum][2];
 		LensEvent[][] subsets = new LensEvent[errNum][errSize];
 		if (getCenterError) {
+			int[][] indexList = getRandomIntsArray(errSize, errNum, 0, events.length);
 			for (int i = 0; i < errNum; i ++) {
-				int[] index = getRandomInts(errSize, 0, events.length);
+				int[] index = indexList[i];
 				if (debug) System.out.print("Random integer sequence:\t");
 				for (int j = 0; j < errSize; j ++) {
 					subsets[i][j] = events[index[j]];
@@ -803,6 +806,27 @@ public class Surface {
 		}
 		
 		return subsetMin;
+	}
+	
+	private static int[][] getRandomIntsArray(int numInts, int numArrays, int min, int max) { //Returns a two-dimensional array with numArrays rows of length numInts of distinct integers in [min, max)
+		if (numInts * numArrays > max-min) return new int[1][1]; //If not enough numbers exist, return an empty 1x1 array containing only 0
+		else {
+			int[][] sequenceList = new int[numArrays][numInts]; //Array that will be returned
+			ArrayList<Integer> choices = new ArrayList<Integer>(); //ArrayList of integers that can be chosen
+			for (int i = min; i < max; i ++) { 
+				choices.add(i);
+			}
+			
+			//Fills the sequenceList by selecting random integers from the remaining choices
+			Random gen = new Random();
+			for (int i = 0; i < numArrays; i ++) {
+				for (int j = 0; j < numInts; j ++) {
+					sequenceList[i][j] = choices.remove(gen.nextInt(choices.size()));
+				}
+			}
+			
+			return sequenceList;
+		}
 	}
 
 	private static int[] getRandomInts(int numInts, int min, int max) {	//Returns a one-dimensional array of length numInts of distinct integers in [min, max)
