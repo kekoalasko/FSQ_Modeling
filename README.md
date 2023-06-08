@@ -4,6 +4,7 @@ Uses the Fundamental Surface of Quads to model key parameters of the galaxy clus
 ## Using Java
 The coding language used here is Java, so compiling is required before running any of the files. Whenever you need to compile a file, run the command
 > javac <path/to/file>
+
 Once compiled, run the file using the command
 > java <path/to/file>
 
@@ -13,13 +14,17 @@ The only file that you should need to run is `fundamentalSurface/Surface.java`. 
 ### Key Parameters
 debug - boolean:  Leave this `false` unless you want to look at the specific outputs of the code. Making it `true` will flood your console with data that you (probably) won't need
 
-getCenterError - boolean: Toggle this to `true` if you want to be given an accurate uncertainty on cluster parameters. To be given a less accurate estimate, change to `false`. NOTE: Hasn't been bug tested while this is `false`, I believe it will not save data correctly without it being set to `true`.
+useSubsets - boolean: Toggle this to `true` in order to have uncertainties estimated via bootstrapping. Toggling to `false` will leave uncertainties to be given by the optimization method used to minimize deviations from the FSQ. These uncertainties tend to be a couple orders of magnitude smaller, suggesting that they are greatly overestimating the accuracy of this method.
 
 saveFSQData - boolean: Changing this to `true` will create a file `otherData/FSQPoints<fileNum>.csv` that saves the position of each quad in the FSQ space
+
+buildFSQGrid - boolean: Changing this to `true` will cause the program to take much longer to run, but will create a file `centerData/centerData<data set #>.csv` that can be used to map the deviation from the FSQ as a function of moving the cluster center along the lensing plane.
 
 radius - double: This defines the maximum distance along the x and y axis that will be tested as a potential FSQ center, measured in units of pixels
 
 stepSize - double: This defines the step size between test FSQ centers, measured in units of pixels
+
+accuracy - double: This is the precision to which the quad-estimated center is found (in units of pixels)
 
 errNum - int: Sets the number of random subsets of quads used for estimating errors. Does nothing if getCenterError is `false`
 
